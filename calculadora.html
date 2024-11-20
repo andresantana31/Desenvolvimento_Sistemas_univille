@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculadora</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <style>
+    body {
+      background-image: url('https://png.pngtree.com/background/20211215/original/pngtree-cartoon-satellite-ruler-calculator-linear-education-background-picture-image_1458755.jpg');
+      background-size: cover;
+      background-repeat: no-repeat;
+      font-family: Arial, sans-serif;
+    }
+
+    .calculator {
+      background-color: rgba(255, 255, 255, 0.9);
+      max-width: 420px;
+      margin: 50px auto;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .button {
+      width: 80px;
+      height: 80px;
+      font-size: 24px;
+      margin: 5px;
+    }
+
+    #display {
+      height: 60px;
+      font-size: 20px;
+      text-align: right;
+      padding: 10px;
+      margin-bottom: 10px;
+    }
+
+    .row-buttons {
+      display: flex;
+      justify-content: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="calculator text-center">
+    <div class="d-flex align-items-center mb-3">
+      <input type="text" id="display" class="form-control" placeholder="0" readonly>
+      <button class="btn btn-danger ms-2 button" onclick="limpar()">C</button>
+    </div>
+    <div class="row-buttons">
+      <button class="btn btn-light button" onclick="cliqueNumero(1)">1</button>
+      <button class="btn btn-light button" onclick="cliqueNumero(2)">2</button>
+      <button class="btn btn-light button" onclick="cliqueNumero(3)">3</button>
+      <button class="btn btn-warning button" onclick="cliqueOperacao('+')">+</button>
+      <button class="btn btn-warning button" onclick="cliqueOperacao('-')">-</button>
+    </div>
+    <div class="row-buttons">
+      <button class="btn btn-light button" onclick="cliqueNumero(4)">4</button>
+      <button class="btn btn-light button" onclick="cliqueNumero(5)">5</button>
+      <button class="btn btn-light button" onclick="cliqueNumero(6)">6</button>
+      <button class="btn btn-warning button" onclick="cliqueOperacao('/')">/</button>
+      <button class="btn btn-warning button" onclick="cliqueOperacao('*')">X</button>
+    </div>
+    <div class="row-buttons">
+      <button class="btn btn-light button" onclick="cliqueNumero(7)">7</button>
+      <button class="btn btn-light button" onclick="cliqueNumero(8)">8</button>
+      <button class="btn btn-light button" onclick="cliqueNumero(9)">9</button>
+      <button class="btn btn-light button" onclick="cliqueNumero('.')">.</button>
+      <button class="btn btn-primary button" onclick="resultadoFinal()">=</button>
+    </div>
+  </div>
+
+  <script>
+    let currentInput = '';
+    let previousInput = '';
+    let operator = '';
+
+    function cliqueNumero(num) {
+      if (num === '.' && currentInput.includes('.')) return;
+      currentInput += num;
+      updateDisplay(currentInput);
+    }
+
+    function cliqueOperacao(op) {
+      if (currentInput === '') return;
+      if (previousInput !== '') {
+        resultadoFinal();
+      }
+      operator = op;
+      previousInput = currentInput;
+      currentInput = '';
+    }
+
+    function limpar() {
+      currentInput = '';
+      previousInput = '';
+      operator = '';
+      updateDisplay('0');
+    }
+
+    function resultadoFinal() {
+      if (currentInput === '' || previousInput === '') return;
+
+      const num1 = parseFloat(previousInput);
+      const num2 = parseFloat(currentInput);
+      let result;
+
+      switch (operator) {
+        case '+':
+          result = num1 + num2;
+          break;
+        case '-':
+          result = num1 - num2;
+          break;
+        case '*':
+          result = num1 * num2;
+          break;
+        case '/':
+          if (num2 === 0) {
+            updateDisplay('Erro');
+            return;
+          }
+          result = num1 / num2;
+          break;
+        default:
+          return;
+      }
+
+      currentInput = result.toString();
+      operator = '';
+      previousInput = '';
+      updateDisplay(currentInput);
+    }
+
+    function updateDisplay(value) {
+      document.getElementById('display').value = value;
+    }
+  </script>
+</body>
+</html>
