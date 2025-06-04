@@ -1,0 +1,67 @@
+// Classe base Carro
+public class Carro {
+    protected String marca;
+    protected double preco;
+
+    public Carro(String marca, double preco) {
+        this.marca = marca;
+        this.preco = preco;
+    }
+
+    public void exibirInfo() {
+        System.out.println("Marca: " + marca);
+        System.out.println("Preço: R$ " + preco);
+    }
+}
+
+// Subclasse CarroEsportivo
+class CarroEsportivo extends Carro {
+    private int potencia;
+    private boolean possuiTurbo;
+
+    public CarroEsportivo(String marca, double preco, int potencia, boolean possuiTurbo) {
+        super(marca, preco);
+        this.potencia = potencia;
+        this.possuiTurbo = possuiTurbo;
+    }
+
+    @Override
+    public void exibirInfo() {
+        super.exibirInfo();
+        System.out.println("Potência: " + potencia + " CV");
+        System.out.println("Possui turbo: " + (possuiTurbo ? "Sim" : "Não"));
+    }
+}
+
+// Subclasse CarroUtilitario
+class CarroUtilitario extends Carro {
+    private double capacidadeCarga;
+    private boolean tracao4x4;
+
+    public CarroUtilitario(String marca, double preco, double capacidadeCarga, boolean tracao4x4) {
+        super(marca, preco);
+        this.capacidadeCarga = capacidadeCarga;
+        this.tracao4x4 = tracao4x4;
+    }
+
+    @Override
+    public void exibirInfo() {
+        super.exibirInfo();
+        System.out.println("Capacidade de carga: " + capacidadeCarga + " kg");
+        System.out.println("Tração 4x4: " + (tracao4x4 ? "Sim" : "Não"));
+    }
+}
+
+// Programa principal
+public class Main {
+    public static void main(String[] args) {
+        CarroEsportivo esportivo = new CarroEsportivo("Ferrari", 1500000, 720, true);
+        CarroUtilitario utilitario = new CarroUtilitario("Toyota Hilux", 280000, 1000, true);
+
+        System.out.println("=== Carro Esportivo ===");
+        esportivo.exibirInfo();
+
+        System.out.println("\n=== Carro Utilitário ===");
+        utilitario.exibirInfo();
+    }
+}
